@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EixoController;
+use App\Http\Controllers\CursoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
 /*Route::get('/eixo', 'App\Http\Controllers\EixoController@index')->name('eixo.index');
 Route::get('/eixo/create', 'App\Http\Controllers\EixoController@create')->name('eixo.create');
 Route::post('/eixo', 'App\Http\Controllers\EixoController@store')->name('eixo.store');*/
-Route::resource('/eixo', 'App\Http\Controllers\EixoController');
+Route::resource('/eixo', EixoController::class);
+Route::resource('/curso', CursoController::class);

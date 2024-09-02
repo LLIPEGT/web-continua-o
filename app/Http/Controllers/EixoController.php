@@ -14,8 +14,7 @@ class EixoController extends Controller
      */
     public function index()
     {
-        $data = Eixo::all();
-
+        $data = Eixo::with('curso')->get();
         return view('eixo.index', compact(['data']));
 
     }
@@ -40,10 +39,14 @@ class EixoController extends Controller
     public function store(Request $request)
     {
         $eixo = new Eixo();
-        $eixo->name = $request->name;
-        $eixo->description = $request->description;
-        $eixo->save();
-        return redirect()->route('eixo.index');
+        if(isset($eixo)){
+            $eixo->name = $request->name;
+            $eixo->description = $request->description;
+            $eixo->save();
+            return redirect()->route('eixo.index');
+        }
+
+        return "ERROR";
     }
 
     /**
@@ -94,11 +97,10 @@ class EixoController extends Controller
             $eixo->name = $request->name;
             $eixo->description = $request->description;
             $eixo->save();
-
             return redirect()->route('eixo.index');
-        }
 
-        return 'ERROO';
+        }
+        return 'ERROR';
     }
 
     /**
@@ -109,6 +111,9 @@ class EixoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Eixo::destroy($id)){
+            return redirect()->route('eixo.index');
+        }
+        return "ERRO";
     }
 }
