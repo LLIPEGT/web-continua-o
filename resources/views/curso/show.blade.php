@@ -2,18 +2,18 @@
 
 @section('content')
 
-<label class="mt-3">Nome</label>
-<input type="text" name="name" class="form-control" value="{{ $curso->nome }}" disabled>
-<label class="mt-3">Abreviatura</label>
-<input type="text" name="name" class="form-control" value="{{ $curso->abreviatura}}" disabled>
-<label class="mt-3">Duração</label>
-<input type="number" name="name" class="form-control" value="{{ $curso->duracao}}" disabled>
-<label class="mt-3">Eixo</label>
-<input type="text" name="name" class="form-control" value="{{ $curso->eixo->name}}" disabled>
-<a href="{{ route('curso.index') }}" class="btn btn-secondary mt-3">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
-    </svg>
-</a>
+<div class="card mt-3">
+    <div class="card-header">
+        Curso
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><b>{{ $curso->nome}}</b> ({{ $curso->abreviatura}})</h5>
+        <p class="card-title">Duração<p>
+        <input type="number" name="name" class="form-control" value="{{ $curso->duracao}}" disabled>
+        <p class="mt-1  card-title">Eixo</p>
+        <input type="text" name="name" class="form-control" value="{{ $curso->eixo->name}}" disabled>
+        <a href="{{ route('curso.index') }}" class="btn btn-primary mt-3">Voltar</a>
+    </div>
+  </div>
 
 @endsection

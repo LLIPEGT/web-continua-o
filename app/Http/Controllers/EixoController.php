@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Eixo;
+use App\Models\Curso;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
 
 class EixoController extends Controller
 {
@@ -40,8 +42,8 @@ class EixoController extends Controller
     {
         $eixo = new Eixo();
         if(isset($eixo)){
-            $eixo->name = $request->name;
-            $eixo->description = $request->description;
+            $eixo->name = mb_strtoupper($request->name, 'UTF-8');
+            $eixo->description = mb_strtoupper($request->description, 'UTF-8');
             $eixo->save();
             return redirect()->route('eixo.index');
         }
@@ -116,4 +118,36 @@ class EixoController extends Controller
         }
         return "ERRO";
     }
+
+    public function report($id)
+    {
+        $cursos = Curso::where('eixo_id', $id)->get();
+        // Instancia um Objeto da Classe Dompdf
+        $dompdf = new Dompdf();
+
+        // Carrega o HTML
+        $dompdf->loadHtml(view('eixo.report', compact('cursos'))->render());
+        // (Opcional) Configura o Tamanho e Orientação da Página
+        $dompdf->setPaper('A4', 'landscape');
+        // Converte o HTML em PDF
+        $dompdf->render();
+        // Serializa o PDF para Navegador
+        $dompdf->stream("relatorio-horas-turma.pdf", array("Attachment" => false));
+
+    }
+
+    public function graph()
+    {
+        $data = json_encode([
+            ["NOME", "TOTAL DE HORAS"],
+            ["MARIA", 150],
+            ["CARLOS", 90],
+            ["JOÃO", 232],
+            ["ANA", 197],
+            ]);
+
+            return view('eixo.graph', compact('data'));
+    }
 }
+
+

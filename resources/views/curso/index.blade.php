@@ -14,7 +14,6 @@
                 <th>Id</th>
                 <th>Nome</th>
                 <th>Abreviatura</th>
-                <th>Duração</th>
                 <th>Actions</th>
             </thead>
 
@@ -24,7 +23,6 @@
                     <td> {{$item->id}}</td>
                     <td>{{$item->nome}}</td>
                     <td>{{$item->abreviatura}}</td>
-                    <td>{{$item->duracao}}</td>
                     <td>
                         <a href="{{ route('curso.show', $item->id) }}" class="btn btn-info">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFFF" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
