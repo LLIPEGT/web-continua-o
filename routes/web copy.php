@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use App\Http\Controllers\EixoController;
+//use App\Http\Controllers\CursoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-})->name('home');//->middleware(['auth']);
+})->name('home');
 
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/curso', 'App\Http\Controllers\CursoController');
@@ -26,9 +28,3 @@ Route::get('/report/eixos/{eixo_id}', 'App\Http\Controllers\EixoController@repor
 Route::get('/graph/eixos', 'App\Http\Controllers\EixoController@graph')->name('eixo.graph');
 
 //Route::resource('/curso', CursoController::class);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';

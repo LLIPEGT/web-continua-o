@@ -6,9 +6,23 @@ use App\Models\Eixo;
 use App\Models\Curso;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
+use PhpParser\Node\Stmt\Foreach_;
 
 class EixoController extends Controller
 {
+
+    private $regras = [
+        'name' => 'required|max:50|min:3|unique:eixos',
+        'description' => 'required|max:300|min:10',
+    ];
+
+    private $msgs = [   "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+                        "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+                        "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+                        "unique" => "Já existe um endereço cadastrado com esse [:attribute]!"
+    ];
+
+
     /**
      * Display a listing of the resource.
      *
@@ -40,6 +54,8 @@ class EixoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->regras, $this->msgs);
+
         $eixo = new Eixo();
         if(isset($eixo)){
             $eixo->name = mb_strtoupper($request->name, 'UTF-8');
@@ -138,13 +154,34 @@ class EixoController extends Controller
 
     public function graph()
     {
-        $data = json_encode([
+
+        $eixos = Eixo::with('curso')->orderby('name')->get();
+
+
+
+        $data = [
+            ["EIXO ", "NUMERO DE CUROSO"],
+        ];
+
+        $cont = 1;
+        Foreach($eixos as $item){
+            $data[$cont] = [
+                $item->name, count($item->curso)
+            ];
+            $cont++;
+        };
+
+        $data = json_encode($data);
+
+        /*$data = json_encode([
             ["NOME", "TOTAL DE HORAS"],
             ["MARIA", 150],
             ["CARLOS", 90],
             ["JOÃO", 232],
             ["ANA", 197],
-            ]);
+            ]);*/
+
+        //dd($data);
 
             return view('eixo.graph', compact('data'));
     }
